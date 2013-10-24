@@ -136,11 +136,11 @@ int main(){
 	tearDown();
 
 	setup();
-		test_25_count_must_print_total_number_of_matching();
+		test_25_counts_even_numbers();
 	tearDown();
 
 	setup();
-		test_26_count_must_print_total_number_of_matching_if_noOne_is_matching();
+		test_26_counts_no_even_numbers_in_a_collection_of_odds();
 	tearDown();
 
 	setup();
@@ -157,6 +157,18 @@ int main(){
 
 	setup();
 		test_30_filter_must_return_the_total_strings_which_matches_the_criteria();
+	tearDown();
+
+	setup();
+		test_31_filter_must_return_the_total_strings_which_matches_the_criteria();
+	tearDown();
+
+	setup();
+		test_32_map_must_multiply_two_to_each_element_of_data();
+	tearDown();
+
+	setup();
+		test_33_map_must_not_multiply_if_there_is_nothing_to_multiply();
 	tearDown();
 
 

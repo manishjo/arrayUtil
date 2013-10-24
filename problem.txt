@@ -66,3 +66,30 @@ where destination is an array of pointers into which the address of the matching
  
 The method returns the number of elements which matches the criteria that have been copied onto the destination.
 
+-------------------1.7----------------------------
+
+Implement a macro ARRAYUTIL(TYPE) to customize your ArrayUtil structure & methods to be used without the need of typecasting void pointers to the respective types.
+
+For example: ARRAYUTIL(int)
+makes available a structure ArrayUtil_int which has int* as data and not void*.
+It also gives methods like create_int(int elements), resize_int(int elements) which will return ArrayUtil_int
+
+-------------------1.8-----------------------------
+
+Implement a map method.
+
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint);
+maps source to destination using the provided convert function.
+
+where the signature of the ConvertFunc is:
+void ConvertFunc(void* hint, void* sourceItem, void* destinationItem);
+
+----------------------1.9-----------------------------
+
+Implement forEach method
+
+void forEach(ArrayUtil util, OperationFunc* operation, void* hint);
+performs operation on all items in the array.
+
+where the signature of the OperationFunc is:
+void OperationFunc(void* hint, void* item);

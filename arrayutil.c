@@ -69,24 +69,17 @@ void* findLast(ArrayUtil util, MatchFunc match, void* hint){
 	return find(loop,util,match,hint);
 }
 
-int findCount(LOOP loop,ArrayUtil util, MatchFunc match, void* hint){
-	int index = 0,count=0;
-	for(index = loop.start ; loop.test(index,loop.end) ; index += loop.step){
-		if(match(hint,util.base+(index * util.typeSize)))
-			count=count+1;
-	}
-	return count;
-}
-
 int count(ArrayUtil util, MatchFunc match, void* hint){
-	LOOP loop = {0,lessThan,util.length,1};
-	return findCount(loop,util,match,hint);
+	int index = 0,count=0;
+	for(index = 0 ; index < util.length ; index ++)
+		count += match(hint,util.base+(index * util.typeSize));
+	return count;
 }
 
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
  	int i,count=0,upto=util.length*util.typeSize;
 	void *p;	
-	for(i=0;i<upto;i=i+util.typeSize){
+	for(i=0;(i<upto && count < maxItems);i=i+util.typeSize){
 		p=util.base+i;			
 		if(match(hint,p)==1){			
 			destination[count]=p;
@@ -95,4 +88,12 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	}	
 	return count;
 }
+
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
+	int index;
+	for(index = 0 ; index < source.length ; index ++)
+		convert(hint,source.base+(index * source.typeSize),destination.base+(index * destination.typeSize));
+}
+
+
 

@@ -243,7 +243,7 @@ void test_24_if_string_is_matched_from_frist_it_must_return_it(){
 	ASSERT(compare==0);
 }
 
-void test_25_count_must_print_total_number_of_matching(){
+void test_25_counts_even_numbers(){
 	int ans;
 	int* pItem;
 	util = create(sizeof(int),4);
@@ -253,7 +253,7 @@ void test_25_count_must_print_total_number_of_matching(){
 	ASSERT(ans==3);
 }
 
-void test_26_count_must_print_total_number_of_matching_if_noOne_is_matching(){
+void test_26_counts_no_even_numbers_in_a_collection_of_odds(){
 	int ans;
 	int* pItem;
 	util = create(sizeof(int),2);
@@ -313,15 +313,55 @@ void test_30_filter_must_return_the_total_strings_which_matches_the_criteria(){
 	ASSERT(compare==0);
 }
 
-// void test_31_filter_must_return_the_total_strings_which_matches_the_criteria(){
-// 	int ans;
-// 	string hint="yogesh",*pItem;
-// 	void* chootaArray[3];
-// 	util = create(sizeof(string),3);
-// 	pItem= (string*)util.base;
-// 	strcpy(pItem[0],"manish");
-// 	strcpy(pItem[1],"yogesh");
-// 	strcpy(pItem[2],"manish");
-// 	ans=filter(util,isMatched,&hint,chootaArray,4);
-// 	ASSERT(ans==2);
-// }
+void test_31_filter_must_return_the_total_strings_which_matches_the_criteria(){
+	int ans;
+	string hint="yogesh",*pItem;
+	void* chootaArray[3];
+	util = create(sizeof(string),3);
+	pItem= (string*)util.base;
+	strcpy(pItem[0],"manish");
+	strcpy(pItem[1],"yogesh");
+	strcpy(pItem[2],"manish");
+	ans=filter(util,isMatched,&hint,chootaArray,4);
+	ASSERT(ans==1);
+}
+
+void multiplyFrom(void* hint, void* sourceItem, void* destinationItem){
+	int multiplyer=*(int*)hint;
+	int source=*(int*)sourceItem;
+	int *dstptr=destinationItem;
+	*dstptr=source*multiplyer;
+}
+
+void test_32_map_must_multiply_two_to_each_element_of_data(){
+	int i,*ptrsrc,hint=2,*ptrdst;
+	ArrayUtil destination = create(sizeof(int), 5);
+	ptrdst=(int*)destination.base;
+	util=create(sizeof(int),5);
+	ptrsrc=(int*)util.base;
+	for(i=0;i<5;i++){
+		ptrsrc[i]=i+1;
+	}
+	map(util,destination,multiplyFrom,&hint);
+	ASSERT(ptrdst[0]==2);
+	ASSERT(ptrdst[1]==4);
+	ASSERT(ptrdst[2]==6);
+
+}
+
+void test_33_map_must_not_multiply_if_there_is_nothing_to_multiply(){
+	int i,*ptrsrc,hint=0,*ptrdst;
+	ArrayUtil destination = create(sizeof(int), 5);
+	ptrdst=(int*)destination.base;
+	util=create(sizeof(int),5);
+	ptrsrc=(int*)util.base;
+	for(i=0;i<5;i++){
+		ptrsrc[i]=i+1;
+	}
+	map(util,destination,multiplyFrom,&hint);
+	ASSERT(ptrdst[0]==0);
+	ASSERT(ptrdst[1]==0);
+	ASSERT(ptrdst[2]==0);
+}
+
+
