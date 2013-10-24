@@ -168,7 +168,23 @@ int main(){
 	tearDown();
 
 	setup();
-		test_33_map_must_not_multiply_if_there_is_nothing_to_multiply();
+		test_33_map_must_give_each_element_0_if_there_is_nothing_to_multiply();
+	tearDown();
+
+	setup();
+		test_35_foreach_must_multiply_two_to_each_element_of_data();
+	tearDown();
+
+	setup();
+		test_36_foreach_must_subtract_two_to_each_element_of_data();
+	tearDown();
+
+	setup();
+		test_37_foreach_must_add_surname_to_each_name();
+	tearDown();
+
+	setup();
+		test_38_reduce_must_add_all_the_elements_of_array();
 	tearDown();
 
 

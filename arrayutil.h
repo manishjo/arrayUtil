@@ -4,6 +4,7 @@
 typedef int MatchFunc(void*, void*);
 typedef void ConvertFunc(void*,void*,void*);
 typedef void OperationFunc(void*,void*);
+typedef void* ReducerFunc(void*,void*,void*);
 typedef char string[256];
 typedef struct{
 	void *base;
@@ -21,3 +22,4 @@ int count(ArrayUtil util, MatchFunc* match, void* hint);
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems );
 void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint);
 void forEach(ArrayUtil util, OperationFunc* operation, void* hint);
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue);

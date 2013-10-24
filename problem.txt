@@ -19,7 +19,7 @@ will return -1 if not found and the array index of the element if found
 
 for example to search 5 in [4,2,1,5,6,0]
 int x = 5;
-findIndex(util, &x) will return 3 
+findIndex(util, &x) will return 3 o00
 
 --------------1.2----------------
 
@@ -93,3 +93,11 @@ performs operation on all items in the array.
 
 where the signature of the OperationFunc is:
 void OperationFunc(void* hint, void* item);
+
+----------------------2.0-------------------------------
+
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue);
+returns the reduced answer.
+ 
+where the signature of ReducerFunc is:
+void* ReducerFunc(void* hint, void* previousItem, void* item);

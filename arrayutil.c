@@ -95,5 +95,18 @@ void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hi
 		convert(hint,source.base+(index * source.typeSize),destination.base+(index * destination.typeSize));
 }
 
+void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
+	int index;
+	for(index=0;index < util.length; index++)
+		operation(hint,util.base+(index * util.typeSize));
+}
 
-
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue){
+	int index;
+	void *currentValue;
+	for(index=0;index < util.length; index++){
+		currentValue=util.base+(index * util.typeSize);
+		intialValue=reducer(hint,intialValue,currentValue);		
+	}
+	return intialValue;
+}

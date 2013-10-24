@@ -217,6 +217,40 @@ int stringCompare(char* ans,string hint){
 	return strcmp(*(string*)ans,hint);
 }
 
+void addhint(void* hint,void* item){
+	int value=*(int*)hint;
+	int *ItemPtr=item;
+	*ItemPtr = value;
+}
+
+void subtract(void* hint,void* item){
+	float value=*(float*)hint;
+	float *ItemPtr=item;
+	*ItemPtr = *(float*)item-value;
+}
+
+void multiplyFrom(void* hint, void* sourceItem, void* destinationItem){
+	int multiplyer=*(int*)hint;
+	int source=*(int*)sourceItem;
+	int *dstptr=destinationItem;
+	*dstptr=source*multiplyer;
+}
+
+void addMsg(void* hint, void* sourceItem, void* destinationItem){
+	string msg,*srcptr,*dstptr;
+	strcpy(msg,*(string*)hint);
+	srcptr=sourceItem;
+	dstptr=destinationItem;
+	strcpy(*dstptr , strcat(*(string*)sourceItem,msg));
+}
+
+void addSurname(void* hint,void* item){
+	string surname,*ItemPtr;
+	strcpy(surname , *(string*)hint);
+	ItemPtr=item;
+	strcpy(*ItemPtr , strcat(*(string*)item,surname));
+}
+
 void test_23_if_string_is_matched_from_frist_it_must_return_it(){
 	char *ans;
 	int compare;
@@ -326,13 +360,6 @@ void test_31_filter_must_return_the_total_strings_which_matches_the_criteria(){
 	ASSERT(ans==1);
 }
 
-void multiplyFrom(void* hint, void* sourceItem, void* destinationItem){
-	int multiplyer=*(int*)hint;
-	int source=*(int*)sourceItem;
-	int *dstptr=destinationItem;
-	*dstptr=source*multiplyer;
-}
-
 void test_32_map_must_multiply_two_to_each_element_of_data(){
 	int i,*ptrsrc,hint=2,*ptrdst;
 	ArrayUtil destination = create(sizeof(int), 5);
@@ -349,7 +376,7 @@ void test_32_map_must_multiply_two_to_each_element_of_data(){
 
 }
 
-void test_33_map_must_not_multiply_if_there_is_nothing_to_multiply(){
+void test_33_map_must_give_each_element_0_if_there_is_nothing_to_multiply(){
 	int i,*ptrsrc,hint=0,*ptrdst;
 	ArrayUtil destination = create(sizeof(int), 5);
 	ptrdst=(int*)destination.base;
@@ -364,4 +391,84 @@ void test_33_map_must_not_multiply_if_there_is_nothing_to_multiply(){
 	ASSERT(ptrdst[2]==0);
 }
 
+// void test_34_map_must_add_suname_to_every_name(){
+// 	int i,compare;
+// 	string *ptrsrc,hint="how r u ?",*ptrdst;
+// 	ArrayUtil destination = create(sizeof(string), 5);
+// 	ptrdst=(string*)destination.base;
+// 	util=create(sizeof(int),5);
+// 	ptrsrc=(string*)util.base;
+// 	strcpy(ptrsrc[0],"swami Ji ");
+// 	strcpy(ptrsrc[1],"prateek ");
+// 	strcpy(ptrsrc[2],"md ");
+// 	map(util,destination,addMsg,&hint);
+// 	compare=stringCompare(ptrdst[0],"swami ji how r u ?");
+// 	ASSERT(compare==0);
+// 	compare=stringCompare(ptrdst[1],"prateek how r u ?");
+// 	ASSERT(compare==0);
+// 	compare=stringCompare(ptrdst[2],"md how r u ?");
+// 	ASSERT(compare==0);
+// }
 
+void test_35_foreach_must_multiply_two_to_each_element_of_data(){
+	int i,*ptrsrc,hint=2;
+	util=create(sizeof(int),5);
+	ptrsrc=(int*)util.base;
+	for(i=0;i<5;i++){
+		ptrsrc[i]=i+1;
+	}
+	forEach(util,addhint,&hint);
+	ASSERT(ptrsrc[0]==2);
+	ASSERT(ptrsrc[1]==2);
+	ASSERT(ptrsrc[2]==2);
+
+}
+
+void test_36_foreach_must_subtract_two_to_each_element_of_data(){
+	int i;
+	float *ptrsrc,hint=1.0;
+	util=create(sizeof(float),5);
+	ptrsrc=(float*)util.base;
+	for(i=0;i<5;i++){
+		ptrsrc[i]=i+1;
+	}
+	forEach(util,subtract,&hint);
+	ASSERT(ptrsrc[0]==0.0);
+	ASSERT(ptrsrc[1]==1.0);
+	ASSERT(ptrsrc[2]==2.0);
+}
+
+void test_37_foreach_must_add_surname_to_each_name(){
+	int i,compare;
+	string *ptrsrc,hint="joshi";
+	util=create(sizeof(string),3);
+	ptrsrc=(string*)util.base;
+	strcpy(ptrsrc[0],"manish ");
+	strcpy(ptrsrc[1],"yogesh ");
+	strcpy(ptrsrc[2],"mamta ");
+	forEach(util,addSurname,&hint);
+	compare=stringCompare(ptrsrc[0],"manish joshi");
+	ASSERT(compare==0);
+	compare=stringCompare(ptrsrc[1],"yogesh joshi");
+	ASSERT(compare==0);
+	compare=stringCompare(ptrsrc[2],"mamta joshi");
+	ASSERT(compare==0);
+}
+
+void* addArray(void* hint, void* previousItem, void* item){
+	*(int*)previousItem+=*(int*)item;
+	return previousItem;
+}
+
+void test_38_reduce_must_add_all_the_elements_of_array(){
+	int i,*srcptr;
+	int ans;
+	int hint,previous=0;
+	util=create(sizeof(int),5);
+	srcptr = (int*)util.base;
+		for(i=0;i<5;i++){
+		srcptr[i]=i+1;
+	}
+	ans=*(int*)reduce(util,addArray,&hint,&previous);
+	ASSERT(15==ans);
+}
