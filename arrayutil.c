@@ -101,12 +101,11 @@ void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
 		operation(hint,util.base+(index * util.typeSize));
 }
 
-void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue){
-	int index;
-	void *currentValue;
-	for(index=0;index < util.length; index++){
-		currentValue=util.base+(index * util.typeSize);
-		intialValue=reducer(hint,intialValue,currentValue);		
+void reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* result){
+	int i;
+	void* curr_address=util.base;
+	for (i = 0; i < util.length; ++i){
+		reducer( hint,  result,  curr_address);
+		curr_address+=util.typeSize;
 	}
-	return intialValue;
 }

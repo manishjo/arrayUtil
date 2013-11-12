@@ -391,24 +391,6 @@ void test_33_map_must_give_each_element_0_if_there_is_nothing_to_multiply(){
 	ASSERT(ptrdst[2]==0);
 }
 
-// void test_34_map_must_add_suname_to_every_name(){
-// 	int i,compare;
-// 	string *ptrsrc,hint="how r u ?",*ptrdst;
-// 	ArrayUtil destination = create(sizeof(string), 5);
-// 	ptrdst=(string*)destination.base;
-// 	util=create(sizeof(int),5);
-// 	ptrsrc=(string*)util.base;
-// 	strcpy(ptrsrc[0],"swami Ji ");
-// 	strcpy(ptrsrc[1],"prateek ");
-// 	strcpy(ptrsrc[2],"md ");
-// 	map(util,destination,addMsg,&hint);
-// 	compare=stringCompare(ptrdst[0],"swami ji how r u ?");
-// 	ASSERT(compare==0);
-// 	compare=stringCompare(ptrdst[1],"prateek how r u ?");
-// 	ASSERT(compare==0);
-// 	compare=stringCompare(ptrdst[2],"md how r u ?");
-// 	ASSERT(compare==0);
-// }
 
 void test_35_foreach_must_multiply_two_to_each_element_of_data(){
 	int i,*ptrsrc,hint=2;
@@ -460,15 +442,35 @@ void* addArray(void* hint, void* previousItem, void* item){
 	return previousItem;
 }
 
-void test_38_reduce_must_add_all_the_elements_of_array(){
-	int i,*srcptr;
-	int ans;
-	int hint,previous=0;
-	util=create(sizeof(int),5);
-	srcptr = (int*)util.base;
-		for(i=0;i<5;i++){
-		srcptr[i]=i+1;
-	}
-	ans=*(int*)reduce(util,addArray,&hint,&previous);
-	ASSERT(15==ans);
+void* multiplyArray(void* hint, void* previousItem, void* item){
+	*(float*)previousItem*=*(float*)item;
+	return previousItem;
+}
+
+void* makeString(void* hint, void* previousItem, void* item){
+	strcpy(*(string*)previousItem,strcat(*(string*)item,*(string*)hint));
+	return previousItem;                                                                         
+}
+
+void find_greater(void* hint, void* result, void* item){
+	float* r = result;
+	float* i = item;
+	*r = (*r > *i)? *r : *i;
+}
+
+
+void test_28_to_find_the_greatest_number_in_float_array_by_reduce_method(){
+	int count;
+	float hint,previous=0;
+	float *elements;
+	float result;
+	util = create(sizeof(float), 5);
+	elements=(float*)util.base;
+		elements[0]=3.46;
+		elements[1]=2.34;
+		elements[2]=5.78;
+		elements[3]=4.12;
+		elements[4]=1.23;
+	reduce(util, find_greater, &hint, &result);
+	ASSERT(5.78f==result);
 }

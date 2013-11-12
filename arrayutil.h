@@ -22,4 +22,4 @@ int count(ArrayUtil util, MatchFunc* match, void* hint);
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems );
 void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint);
 void forEach(ArrayUtil util, OperationFunc* operation, void* hint);
-void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue);
+void reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* result);

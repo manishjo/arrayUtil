@@ -1,6 +1,9 @@
 # Creates a myfile.c source file, myfileTest.c test file and testUtils.h header file
 # ./createScaffold.sh mymath.c
-#
+# Edited Oct 26, 2013.
+# Treats multiple asserts in one test as a single test
+# prints the failed expression also.
+# More accurate in locating crashes in setup and teardown
 
 source=$1
 testHeader='testUtils.h'
@@ -26,17 +29,7 @@ void test_fail(){
 }
 END_OF_TESTSOURCE
 cat > $testHeader <<END_OF_TEST_HEADER
-void incrementTestCount();
-void incrementPassCount();
-void testFailed(const char* fileName, int lineNumber);
-void testStarted(const char* name);
-
-#define ASSERT(expr) \\
-	testStarted(__FUNCTION__);\\
-	if(expr){\\
-		incrementPassCount();\\
-	} else{\\
-		testFailed(__FILE__,__LINE__);\\
-	}\\
-	incrementTestCount()
+void testFailed(const char* fileName, int lineNumber, char* expression);
+#define ASSERT(expr) \
+	if(!(expr)) testFailed(__FILE__,__LINE__,#expr)
 END_OF_TEST_HEADER
