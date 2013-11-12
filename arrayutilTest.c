@@ -458,7 +458,6 @@ void find_greater(void* hint, void* result, void* item){
 	*r = (*r > *i)? *r : *i;
 }
 
-
 void test_28_to_find_the_greatest_number_in_float_array_by_reduce_method(){
 	int count;
 	float hint,previous=0;
